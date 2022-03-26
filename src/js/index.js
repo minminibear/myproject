@@ -1,7 +1,7 @@
 import h from "./vdom/createElement";
 import { render } from './vdom/render';
 
-// 初期状態
+// 初期状態(↓変更不可を明示的にするために全て大文字)
 const INITIAL_STATE = {
     accounts: [
         {

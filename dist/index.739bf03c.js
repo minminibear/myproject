@@ -523,7 +523,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _createElement = require("./vdom/createElement");
 var _createElementDefault = parcelHelpers.interopDefault(_createElement);
 var _render = require("./vdom/render");
-// 初期状態
+// 初期状態(↓変更不可を明示的にするために全て大文字)
 const INITIAL_STATE = {
     accounts: [
         {
