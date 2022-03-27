@@ -735,8 +735,18 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "isEventAttr", ()=>isEventAttr
 );
+parcelHelpers.export(exports, "isNode", ()=>isNode
+);
+parcelHelpers.export(exports, "isTextChild", ()=>isTextChild
+);
 const isEventAttr = (attr)=>{
     return /^on/.test(attr); //onClickやonChengeなど先頭にonが着くイベントかどうかを判断。
+};
+const isNode = (node)=>{
+    return typeof node !== "string";
+};
+const isTextChild = (node)=>{
+    return node && node.children && node.children.length > 0 && typeof node.children[0] === "string";
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eoqKr":[function(require,module,exports) {
