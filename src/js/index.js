@@ -32,6 +32,20 @@ const INITIAL_STATE = {
     ],
 };
 
+// 動作機能
+const actions = {
+    toggleFollow(state, id) {
+        const accounts = state.accounts.map((f) => {
+            if (f.id === id) {
+                return { ...f, isFollow: !f.isFollow };
+            } else {
+                return f;
+            }
+        });
+        return { ...state, accounts };
+    },
+};
+
 // accountという名称でデータを受け取る。(例）メッシに関する全ての情報)
 const accountItem = (account) => {
     return h("div", {
