@@ -1,5 +1,6 @@
 import h from "./vdom/createElement";
 import { render } from './vdom/render';
+import { app } from './vdom/app'
 
 // 初期状態(↓変更不可を明示的にするために全て大文字)
 const INITIAL_STATE = {
@@ -31,6 +32,7 @@ const INITIAL_STATE = {
     ],
 };
 
+// accountという名称でデータを受け取る。(例）メッシに関する全ての情報)
 const accountItem = (account) => {
     return h("div", {
         attrs: {},
@@ -43,12 +45,14 @@ const accountItem = (account) => {
                     h("div", {
                         attrs: {},
                         children: [
+                            // account.nameをpタグ内のテキストとして表示
                             h("p", {
                                 attrs: {
                                     class: "account__name",
                                 },
                                 children: [account.name],
                         }),
+                        // account.teamをpタグ内のテキストとして表示
                         h("p", {
                             attrs: {
                                 class: "account__team",
@@ -60,6 +64,7 @@ const accountItem = (account) => {
                 h("div", {
                     attrs: {},
                     children: [
+                        // account.isFollow で class であるisFollow を付与したり、文字列の出しわけをする
                         h("button", {
                             attrs: {
                                 type: "button",
@@ -71,6 +76,7 @@ const accountItem = (account) => {
                 }),
             ],
         }),
+        // account.teamをpタグ内のテキストとして表示
         h("p", {
             attrs: {
                 class: "account__description",
@@ -81,7 +87,8 @@ const accountItem = (account) => {
     });
 };
 
-const view = (props) => // stateの変更ができないように明治的にpropsという名前にする
+// 仮想DOM
+const view = (props) => // stateの変更ができないように明示的にpropsという名前にする
     h("ul", {
         attrs: {
             class: "accountList",
@@ -96,6 +103,12 @@ const view = (props) => // stateの変更ができないように明治的にpro
         }),
     });
 
-const $app = render(view(INITIAL_STATE)); //仮想DOMであるviewをrender関数に渡してリアルDOMを作る
-const el = document.getElementById('app');// src/index.htmlに書かれている <div id="app"></div> を取得
-el.appendChild($app);
+// const $app = render(view(INITIAL_STATE)); //仮想DOMであるviewをrender関数に渡してリアルDOMを作る
+// const el = document.getElementById('app');// src/index.htmlに書かれている <div id="app"></div> を取得
+// el.appendChild($app);
+
+app({
+    root: "#app",
+    initialState: INITIAL_STATE,
+    view,
+});

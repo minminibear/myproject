@@ -523,6 +523,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _createElement = require("./vdom/createElement");
 var _createElementDefault = parcelHelpers.interopDefault(_createElement);
 var _render = require("./vdom/render");
+var _app = require("./vdom/app");
 // 初期状態(↓変更不可を明示的にするために全て大文字)
 const INITIAL_STATE = {
     accounts: [
@@ -549,6 +550,7 @@ const INITIAL_STATE = {
         }, 
     ]
 };
+// accountという名称でデータを受け取る。(例）メッシに関する全ての情報)
 const accountItem = (account)=>{
     return _createElementDefault.default("div", {
         attrs: {
@@ -563,6 +565,7 @@ const accountItem = (account)=>{
                         attrs: {
                         },
                         children: [
+                            // account.nameをpタグ内のテキストとして表示
                             _createElementDefault.default("p", {
                                 attrs: {
                                     class: "account__name"
@@ -571,6 +574,7 @@ const accountItem = (account)=>{
                                     account.name
                                 ]
                             }),
+                            // account.teamをpタグ内のテキストとして表示
                             _createElementDefault.default("p", {
                                 attrs: {
                                     class: "account__team"
@@ -585,6 +589,7 @@ const accountItem = (account)=>{
                         attrs: {
                         },
                         children: [
+                            // account.isFollow で class であるisFollow を付与したり、文字列の出しわけをする
                             _createElementDefault.default("button", {
                                 attrs: {
                                     type: "button",
@@ -598,6 +603,7 @@ const accountItem = (account)=>{
                     }), 
                 ]
             }),
+            // account.teamをpタグ内のテキストとして表示
             _createElementDefault.default("p", {
                 attrs: {
                     class: "account__description"
@@ -609,6 +615,7 @@ const accountItem = (account)=>{
         ]
     });
 };
+// 仮想DOM
 const view = (props)=>_createElementDefault.default("ul", {
         attrs: {
             class: "accountList"
@@ -625,11 +632,16 @@ const view = (props)=>_createElementDefault.default("ul", {
         })
     })
 ;
-const $app = _render.render(view(INITIAL_STATE)); //仮想DOMであるviewをrender関数に渡してリアルDOMを作る
-const el = document.getElementById('app'); // src/index.htmlに書かれている <div id="app"></div> を取得
-el.appendChild($app);
+// const $app = render(view(INITIAL_STATE)); //仮想DOMであるviewをrender関数に渡してリアルDOMを作る
+// const el = document.getElementById('app');// src/index.htmlに書かれている <div id="app"></div> を取得
+// el.appendChild($app);
+_app.app({
+    root: "#app",
+    initialState: INITIAL_STATE,
+    view
+});
 
-},{"./vdom/createElement":"1MvFP","./vdom/render":"1HyMl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1MvFP":[function(require,module,exports) {
+},{"./vdom/createElement":"1MvFP","./vdom/render":"1HyMl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./vdom/app":"eoqKr"}],"1MvFP":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 exports.default = (tagName, { attrs ={
@@ -692,6 +704,22 @@ function render(vNode) {
     return renderElement(vNode);
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["l4AUa","ebWYT"], "ebWYT", "parcelRequire222e")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eoqKr":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "app", ()=>app
+);
+var _render = require("./render");
+const app = ({ root , initialState , view  })=>{
+    const $el = document.querySelector(root);
+    let newNode = view(initialState);
+    // console.log($el,newNode);
+    const renderDom = function() {
+        $el.appendChild(_render.render(newNode));
+    };
+    renderDom();
+};
+
+},{"./render":"1HyMl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["l4AUa","ebWYT"], "ebWYT", "parcelRequire222e")
 
 //# sourceMappingURL=index.739bf03c.js.map
