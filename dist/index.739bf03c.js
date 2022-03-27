@@ -633,7 +633,7 @@ const accountItem = (account)=>{
     });
 };
 // 仮想DOM
-const view = (props)=>_createElementDefault.default("ul", {
+const view = (props, action)=>_createElementDefault.default("ul", {
         attrs: {
             class: "accountList"
         },
@@ -643,7 +643,7 @@ const view = (props)=>_createElementDefault.default("ul", {
                     class: "accountList__item"
                 },
                 children: [
-                    accountItem(e)
+                    accountItem(e, action)
                 ]
             });
         })
@@ -655,7 +655,8 @@ const view = (props)=>_createElementDefault.default("ul", {
 _app.app({
     root: "#app",
     initialState: INITIAL_STATE,
-    view
+    view,
+    actions
 });
 
 },{"./vdom/createElement":"1MvFP","./vdom/render":"1HyMl","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./vdom/app":"eoqKr"}],"1MvFP":[function(require,module,exports) {
@@ -744,7 +745,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "app", ()=>app
 );
 var _render = require("./render");
-const app = ({ root , initialState , view  })=>{
+const app = ({ root , initialState , view , actions  })=>{
     const $el = document.querySelector(root);
     let newNode = view(initialState);
     // console.log($el,newNode);

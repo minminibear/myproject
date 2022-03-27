@@ -103,7 +103,7 @@ const accountItem = (account) => {
 };
 
 // 仮想DOM
-const view = (props) => // stateの変更ができないように明示的にpropsという名前にする
+const view = (props, action) => // stateの変更ができないように明示的にpropsという名前にする
     h("ul", {
         attrs: {
             class: "accountList",
@@ -113,7 +113,7 @@ const view = (props) => // stateの変更ができないように明示的にpro
                 attrs: {
                     class: "accountList__item",
                 },
-                children: [accountItem(e)],
+                children: [accountItem(e, action)],
             });
         }),
     });
@@ -126,4 +126,5 @@ app({
     root: "#app",
     initialState: INITIAL_STATE,
     view,
+    actions,
 });
