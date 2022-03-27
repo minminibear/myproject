@@ -47,7 +47,7 @@ const actions = {
 };
 
 // accountという名称でデータを受け取る。(例）メッシに関する全ての情報)
-const accountItem = (account) => {
+const accountItem = (account, action) => {
     return h("div", {
         attrs: {},
         children: [
@@ -83,7 +83,7 @@ const accountItem = (account) => {
                             attrs: {
                                 type: "button",
                                 class: `followBtn ${account.isFollow ? "isFollow" : ""}`,
-                                onclick: () => alert(account.name),
+                                onclick: () => action.toggleFollow(account.id),
                             },
                             children: [account.isFollow ? "フォロー中" : "フォローする"],
                         }),

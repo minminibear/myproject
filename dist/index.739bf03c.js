@@ -567,7 +567,7 @@ const actions = {
     }
 };
 // accountという名称でデータを受け取る。(例）メッシに関する全ての情報)
-const accountItem = (account)=>{
+const accountItem = (account, action)=>{
     return _createElementDefault.default("div", {
         attrs: {
         },
@@ -610,7 +610,7 @@ const accountItem = (account)=>{
                                 attrs: {
                                     type: "button",
                                     class: `followBtn ${account.isFollow ? "isFollow" : ""}`,
-                                    onclick: ()=>alert(account.name)
+                                    onclick: ()=>action.toggleFollow(account.id)
                                 },
                                 children: [
                                     account.isFollow ? "フォロー中" : "フォローする"
@@ -747,7 +747,7 @@ parcelHelpers.export(exports, "app", ()=>app
 var _render = require("./render");
 const app = ({ root , initialState , view , actions: actions1  })=>{
     const $el = document.querySelector(root);
-    let newNode = view(initialState);
+    let newNode;
     // console.log($el,newNode);
     let state = initialState; //アカウント一覧を代入する
     // action(今回の場合、toggleFollow)にstateの更新とリアルDOMの更新がされるようにする
@@ -768,7 +768,11 @@ const app = ({ root , initialState , view , actions: actions1  })=>{
     const setState = function(newState) {
         if (state !== newState) state = newState;
     };
+    const updateNode = function() {
+        newNode = view(state, dispatcher(actions1));
+    };
     const renderDom = function() {
+        updateNode();
         $el.appendChild(_render.render(newNode));
     };
     renderDom();

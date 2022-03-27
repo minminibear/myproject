@@ -3,7 +3,7 @@ import { render } from "./render";
 // 受け取った引数を使用してリアルDOMに反映する
 export const app = ({ root, initialState, view, actions }) => {
     const $el = document.querySelector(root);
-    let newNode = view(initialState);
+    let newNode;
     // console.log($el,newNode);
 
     let state = initialState; //アカウント一覧を代入する
@@ -30,8 +30,12 @@ export const app = ({ root, initialState, view, actions }) => {
             state = newState;
         }
     };
+    const updateNode = function () {
+        newNode = view(state, dispatcher(actions));
+    };
 
     const renderDom = function () {
+        updateNode();
         $el.appendChild(render(newNode));
     };
 
