@@ -69,6 +69,7 @@ const accountItem = (account) => {
                             attrs: {
                                 type: "button",
                                 class: `followBtn ${account.isFollow ? "isFollow" : ""}`,
+                                onclick: () => alert(account.name),
                             },
                             children: [account.isFollow ? "フォロー中" : "フォローする"],
                         }),

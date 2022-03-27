@@ -593,7 +593,8 @@ const accountItem = (account)=>{
                             _createElementDefault.default("button", {
                                 attrs: {
                                     type: "button",
-                                    class: `followBtn ${account.isFollow ? "isFollow" : ""}`
+                                    class: `followBtn ${account.isFollow ? "isFollow" : ""}`,
+                                    onclick: ()=>alert(account.name)
                                 },
                                 children: [
                                     account.isFollow ? "フォロー中" : "フォローする"
@@ -690,11 +691,19 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "render", ()=>render
 );
+var _utils = require("./utils");
+const setAttrs = (target, attrs)=>{
+    for(const attr in attrs)if (_utils.isEventAttr(attr)) target.addEventListener(attr.slice(2), attrs[attr]);
+    else target.setAttribute(attr, attrs[attr]);
+};
 function renderElement({ tagName , attrs , children  }) {
     // tagNameを元にリアルDOM要素を作成。今回の場合はpなので<p></p>
     const $el = document.createElement(tagName);
+    setAttrs($el, attrs);
     // $elに class や id、type などの属性を付与 <p class="hoge"></p>などができる
-    for (const [k, v] of Object.entries(attrs))$el.setAttribute(k, v);
+    // for (const [k, v] of Object.entries(attrs)) {
+    //     $el.setAttribute(k, v);
+    // }
     // children 要素があるならば一つ一つを要素 $el に appendChild する　<p>ここに追加すること</p >
     for (const child of children)$el.appendChild(render(child));
     return $el;
@@ -703,6 +712,15 @@ function render(vNode) {
     if (typeof vNode === "string") return document.createTextNode(vNode);
     return renderElement(vNode);
 }
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./utils":"4yfBI"}],"4yfBI":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "isEventAttr", ()=>isEventAttr
+);
+const isEventAttr = (attr)=>{
+    return /^on/.test(attr); //onClickやonChengeなど先頭にonが着くイベントかどうかを判断。
+};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eoqKr":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
