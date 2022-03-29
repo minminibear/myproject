@@ -3,7 +3,7 @@ import { render } from "./render";
 // 受け取った引数を使用してリアルDOMに反映する
 export const app = ({ root, initialState, view, actions }) => {
     const $el = document.querySelector(root);
-    let newNode;
+    let newNode; //stateの更新がされ、これからリアルDOMに反映する仮想DOMのというのが分かるように
     // console.log($el,newNode);
 
     let state = initialState; //アカウント一覧を代入する
@@ -34,6 +34,7 @@ export const app = ({ root, initialState, view, actions }) => {
         newNode = view(state, dispatcher(actions));
     };
 
+    // newNodeを使って作成したリアルDOMをrootに反映させる
     const renderDom = function () {
         updateNode();
         $el.appendChild(render(newNode));

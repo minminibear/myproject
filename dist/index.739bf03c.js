@@ -649,6 +649,7 @@ const view = (props, action)=>_createElementDefault.default("ul", {
         })
     })
 ;
+// 仮想DOMをリアルDOMに反映させる
 // const $app = render(view(INITIAL_STATE)); //仮想DOMであるviewをrender関数に渡してリアルDOMを作る
 // const el = document.getElementById('app');// src/index.htmlに書かれている <div id="app"></div> を取得
 // el.appendChild($app);
@@ -665,6 +666,8 @@ parcelHelpers.defineInteropFlag(exports);
 exports.default = (tagName, { attrs ={
 } , children =[]  })=>{
     const vElement = Object.create(null);
+    //　Object.create()メソッドは引数として渡されたプロトタイプを持つオブジェクトを生成する
+    // プロトタイプを持っていない→自分専用のプロパティを持てない！(id属性の追加などが出来ない)
     Object.assign(vElement, {
         tagName,
         attrs,
@@ -706,8 +709,10 @@ exports.export = function(dest, destName, get) {
 },{}],"1HyMl":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+// element();
 parcelHelpers.export(exports, "render", ()=>render
 );
+// 仮想DOMツリーを受け取り、リアルDOMとして返す関数
 var _utils = require("./utils");
 const setAttrs = (target, attrs)=>{
     for(const attr in attrs)if (_utils.isEventAttr(attr)) target.addEventListener(attr.slice(2), attrs[attr]);
@@ -725,8 +730,18 @@ function renderElement({ tagName , attrs , children  }) {
     for (const child of children)$el.appendChild(render(child));
     return $el;
 }
+//　文字列でなければrenderElement関数が呼ばれる
+// 今回は文字列しか判定していないが、本来はJSで扱えてリアルDOMに表示させる際に数値も扱えるように数値も必要
+// vNoudeは投稿の情報一式
+const element = ()=>{
+    console.log(renderElement(vNode));
+};
 function render(vNode) {
-    if (typeof vNode === "string") return document.createTextNode(vNode);
+    if (typeof vNode === "string") {
+        console.log(vNode);
+        return document.createTextNode(vNode);
+    // Document.createTextNode():新しいtextノードを生成する
+    }
     return renderElement(vNode);
 }
 
@@ -757,7 +772,7 @@ parcelHelpers.export(exports, "app", ()=>app
 var _render = require("./render");
 const app = ({ root , initialState , view , actions: actions1  })=>{
     const $el = document.querySelector(root);
-    let newNode;
+    let newNode; //stateの更新がされ、これからリアルDOMに反映する仮想DOMのというのが分かるように
     // console.log($el,newNode);
     let state = initialState; //アカウント一覧を代入する
     // action(今回の場合、toggleFollow)にstateの更新とリアルDOMの更新がされるようにする
@@ -781,6 +796,7 @@ const app = ({ root , initialState , view , actions: actions1  })=>{
     const updateNode = function() {
         newNode = view(state, dispatcher(actions1));
     };
+    // newNodeを使って作成したリアルDOMをrootに反映させる
     const renderDom = function() {
         updateNode();
         $el.appendChild(_render.render(newNode));

@@ -118,6 +118,7 @@ const view = (props, action) => // stateの変更ができないように明示�
         }),
     });
 
+// 仮想DOMをリアルDOMに反映させる
 // const $app = render(view(INITIAL_STATE)); //仮想DOMであるviewをrender関数に渡してリアルDOMを作る
 // const el = document.getElementById('app');// src/index.htmlに書かれている <div id="app"></div> を取得
 // el.appendChild($app);
